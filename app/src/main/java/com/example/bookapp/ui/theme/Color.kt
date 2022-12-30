@@ -9,30 +9,46 @@ val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 
-val LightGray = Color(0xFFD8D8D8)
-val DarkGray = Color(0xFF2A2A2A)
+val LightGray = Color(0xFFFBF9F7)
+val DarkGray = Color(0xFF1D1D27)
+
+val titleOnBoardingDay = Color(0xFF70655D)
+val titleOnBoardingNight = Color(0xFFF9A826)
+
+val descOnBoardingDay = Color(0xFF7B7875)
+val descOnBoardingNight = Color(0xFFD7D7D7)
+
+val indicatorActiveDay = Color(0xFF997B66)
+val indicatorActiveNight = Color(0xFFF9A826)
+
+val indicatorInactiveDay = Color(0xFFD4D4D4)
+val indicatorInactiveNight = Color(0xFFD9D9D9)
+
+val buttonOnBoardingDay = Color(0xFF997B66)
+val buttonOnBoardingNight = Color(0xFFF9A826)
+
+val buttonOnBoardingDayText = Color(0xFFFBF9F7)
+val buttonOnBoardingNightText = Color(0xFF1D1D27)
+
 
 val Colors.welcomeScreenBackgroundColor
-    @Composable
-    get() = if (isLight) Color.White else Color.Black
-
-val Colors.titleColor
-    @Composable
-    get() = if (isLight) DarkGray else LightGray
-
-val Colors.descriptionColor
-    @Composable
-    get() = if (isLight) DarkGray.copy(alpha = 0.5f)
-    else LightGray.copy(alpha = 0.5f)
-
-val Colors.activeIndicatorColor
-    @Composable
-    get() = if (isLight) Purple500 else Purple700
-
-val Colors.inactiveIndicatorColor
-    @Composable
     get() = if (isLight) LightGray else DarkGray
 
+val Colors.titleColor
+    get() = if (isLight) titleOnBoardingDay else titleOnBoardingNight
+
+val Colors.descriptionColor
+    get() = if (isLight) descOnBoardingDay else descOnBoardingNight
+
+
+val Colors.activeIndicatorColor
+    get() = if (isLight) indicatorActiveDay else indicatorActiveNight
+
+val Colors.inactiveIndicatorColor
+    get() = if (isLight) indicatorInactiveDay else indicatorInactiveNight
+
 val Colors.buttonBackgroundColor
-    @Composable
-    get() = if (isLight) Purple500 else Purple700
+    get() = if (isLight) buttonOnBoardingDay else buttonOnBoardingNight
+
+val Colors.contentBtnText
+get() = if (isLight) buttonOnBoardingDayText else buttonOnBoardingNightText

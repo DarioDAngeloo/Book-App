@@ -23,6 +23,8 @@ import com.example.bookapp.navigation.Screen
 import com.example.bookapp.ui.theme.Purple500
 import com.example.bookapp.ui.theme.Purple700
 import com.example.bookapp.R
+import com.example.bookapp.ui.theme.DarkGray
+import com.example.bookapp.ui.theme.LightGray
 
 @Composable
 fun SplashScreen(
@@ -36,7 +38,7 @@ fun SplashScreen(
 
     LaunchedEffect(key1 = true) {
         degrees.animateTo(
-            targetValue = 360f,
+            targetValue = 0f,
             animationSpec = tween(
                 durationMillis = 1000,
                 delayMillis = 200
@@ -58,7 +60,7 @@ fun Splash(degrees: Float) {
     if (isSystemInDarkTheme()) {
         Box(
             modifier = Modifier
-                .background(Color.Black)
+                .background(DarkGray)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
@@ -71,7 +73,7 @@ fun Splash(degrees: Float) {
     } else {
         Box(
             modifier = Modifier
-                .background(Brush.verticalGradient(listOf(Purple700, Purple500)))
+                .background(color = LightGray)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
