@@ -30,6 +30,13 @@ val buttonOnBoardingNight = Color(0xFFF9A826)
 val buttonOnBoardingDayText = Color(0xFFFBF9F7)
 val buttonOnBoardingNightText = Color(0xFF1D1D27)
 
+val homeTopBarTxtDay = Color(0xFF6D5B4B)
+val homeTopBarTxtNight = Color(0xFF52698B)
+
+val homeTopBarBGDay = Color(0xFFFBF9F7)
+val homeTopBarBGNight = Color(0xFF1D1D27)
+
+
 
 val Colors.welcomeScreenBackgroundColor
     get() = if (isLight) LightGray else DarkGray
@@ -52,3 +59,9 @@ val Colors.buttonBackgroundColor
 
 val Colors.contentBtnText
 get() = if (isLight) buttonOnBoardingDayText else buttonOnBoardingNightText
+
+val Colors.topBarTxt
+    get() = if (isLight) homeTopBarTxtDay else homeTopBarTxtNight
+
+val Colors.topBarBg
+    get() = if (isLight) homeTopBarBGDay else homeTopBarBGNight
