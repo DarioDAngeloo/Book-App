@@ -137,7 +137,7 @@ fun FinishButton(
                 onClick = onClick,
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = MaterialTheme.colors.buttonBackgroundColor,
-                    contentColor = Color.White
+                    contentColor = MaterialTheme.colors.contentBtnText
                 )
             ) {
                 Text(text = "Finish")
