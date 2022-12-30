@@ -4,15 +4,15 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.bookapp.data.local.dao.BookDao
-import com.example.bookapp.data.local.dao.BookRemoteKeyDao
+import com.example.bookapp.data.local.dao.BookRemoteKeysDao
 import com.example.bookapp.domain.model.Book
-import com.example.bookapp.domain.model.BookRemoteKey
+import com.example.bookapp.domain.model.BookRemoteKeys
 
-@Database(entities = [Book::class, BookRemoteKey::class], version = 1)
+@Database(entities = [Book::class, BookRemoteKeys::class], version = 1)
 @TypeConverters(DatabaseConverter::class)
 abstract class BookDatabase : RoomDatabase() {
 
     abstract fun bookDao(): BookDao
-    abstract fun bookRemoteKeyDao(): BookRemoteKeyDao
+    abstract fun bookRemoteKeysDao(): BookRemoteKeysDao
 
 }
