@@ -40,8 +40,8 @@ fun SplashScreen(
         degrees.animateTo(
             targetValue = 0f,
             animationSpec = tween(
-                durationMillis = 1000,
-                delayMillis = 200
+                durationMillis = 700,
+
             )
         )
         navController.popBackStack()
