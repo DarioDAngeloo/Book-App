@@ -1,6 +1,10 @@
 package com.example.bookapp.di
 
+import androidx.paging.ExperimentalPagingApi
+import com.example.bookapp.data.local.BookDatabase
 import com.example.bookapp.data.remote.BookApi
+import com.example.bookapp.data.repository.RemoteDataSourceImpl
+import com.example.bookapp.domain.repository.RemoteDataSource
 import com.example.bookapp.util.Constants.BASE_URL
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -15,6 +19,7 @@ import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+@ExperimentalPagingApi
 @ExperimentalSerializationApi
 @Module
 @InstallIn(SingletonComponent::class)
@@ -22,7 +27,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideHttpClient():OkHttpClient{
+    fun provideHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .readTimeout(15, TimeUnit.SECONDS)
             .connectTimeout(15, TimeUnit.SECONDS)
@@ -45,6 +50,18 @@ object NetworkModule {
     @Singleton
     fun provideBookApi(retrofit: Retrofit): BookApi {
         return retrofit.create(BookApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRemoteDataSource(
+        bookApi: BookApi,
+        bookDatabase: BookDatabase
+    ): RemoteDataSource {
+        return RemoteDataSourceImpl(
+            bookApi = bookApi,
+            bookDatabase = bookDatabase
+        )
     }
 
 
