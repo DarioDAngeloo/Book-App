@@ -36,6 +36,9 @@ val homeTopBarTxtNight = Color(0xFF52698B)
 val homeTopBarBGDay = Color(0xFFFBF9F7)
 val homeTopBarBGNight = Color(0xFF1D1D27)
 
+val starColor = Color(0xFFF9A826)
+
+
 
 
 val Colors.welcomeScreenBackgroundColor
