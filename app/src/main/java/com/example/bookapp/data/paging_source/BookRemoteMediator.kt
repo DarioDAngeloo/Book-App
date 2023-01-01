@@ -22,6 +22,19 @@ class BookRemoteMediator @Inject constructor(
     private val bookDao = bookDatabase.bookDao()
     private val bookRemoteKeysDao = bookDatabase.bookRemoteKeysDao()
 
+    override suspend fun initialize(): InitializeAction {
+        val currentTime = System.currentTimeMillis()
+        val lastUpdated = bookRemoteKeysDao.getRemoteKeys(bookId = 1)?.lastUpdated ?: 0
+        val cacheTimeout = 1440
+
+        val diffInMinutes = (currentTime - lastUpdated) / 1000 / 60
+        return if (diffInMinutes.toInt() <= cacheTimeout) {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        } else {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        }
+    }
+
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Book>): MediatorResult {
         return try {
             val page = when (loadType) {
@@ -59,7 +72,8 @@ class BookRemoteMediator @Inject constructor(
                         BookRemoteKeys(
                             id = book.id,
                             prevPage = prevPage,
-                            nextPage = nextPage
+                            nextPage = nextPage,
+                            lastUpdated = response.lastUpdated
                         )
                     }
                     bookRemoteKeysDao.addAllRemoteKeys(bookRemoteKeys = keys)
