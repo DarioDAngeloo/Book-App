@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.AsyncImage
@@ -31,6 +32,7 @@ import com.example.bookapp.R
 import com.example.bookapp.domain.model.Book
 import com.example.bookapp.navigation.Screen
 import com.example.bookapp.presentation.components.RatingWidget
+import com.example.bookapp.presentation.components.ShimmerEffect
 import com.example.bookapp.ui.theme.*
 import com.example.bookapp.util.Constants.BASE_URL
 
@@ -39,34 +41,70 @@ fun ListContent(
     books: LazyPagingItems<Book>,
     navHostController: NavHostController
 ) {
+    val result = handlePagingResult(books = books)
+
     Log.d("ListContent", books.loadState.toString())
-    LazyColumn(
-        contentPadding = PaddingValues(all = SMALL_PADDING),
-        verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
-    ){
-        items(
-            items = books,
-            key = { book ->
-                book.id
-            }
+
+
+    if (result) {
+        LazyColumn(
+            contentPadding = PaddingValues(all = SMALL_PADDING),
+            verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
         ) {
-            book -> book?.let {
-                BookItem(book = it, navHostController = navHostController)
+            items(
+                items = books,
+                key = { book ->
+                    book.id
+                }
+            ) { book ->
+                book?.let {
+                    BookItem(book = it, navHostController = navHostController)
+                }
+            }
         }
+    }
+
+
+}
+
+
+@Composable
+fun handlePagingResult(
+    books: LazyPagingItems<Book>
+): Boolean {
+    books.apply {
+        val error = when {
+            loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+            loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+            loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+            else -> null
+        }
+
+        return when {
+            loadState.refresh is LoadState.Loading -> {
+                ShimmerEffect()
+                false
+            }
+            error != null -> {
+                false
+            }
+            else -> true
         }
     }
 }
+
 
 @Composable
 fun BookItem(
     book: Book,
     navHostController: NavHostController
 ) {
-    Box(modifier = Modifier
-        .height(BOOK_ITEM_HEIGHT)
-        .clickable {
-            navHostController.navigate(Screen.Details.passBookId(bookId = book.id))
-        },
+    Box(
+        modifier = Modifier
+            .height(BOOK_ITEM_HEIGHT)
+            .clickable {
+                navHostController.navigate(Screen.Details.passBookId(bookId = book.id))
+            },
         contentAlignment = Alignment.BottomStart
     ) {
         Surface(shape = RoundedCornerShape(size = LARGE_PADDING)) {
@@ -117,12 +155,15 @@ fun BookItem(
                     modifier = Modifier.padding(top = SMALL_PADDING),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                        RatingWidget(modifier = Modifier.padding(end = SMALL_PADDING), rating = book.rating)
-                        Text(
-                            text = "(${book.rating})",
-                            textAlign = TextAlign.Center,
-                            color = Color.White
-                        )
+                    RatingWidget(
+                        modifier = Modifier.padding(end = SMALL_PADDING),
+                        rating = book.rating
+                    )
+                    Text(
+                        text = "(${book.rating})",
+                        textAlign = TextAlign.Center,
+                        color = Color.White
+                    )
                 }
             }
         }
@@ -132,29 +173,33 @@ fun BookItem(
 @Preview
 @Composable
 fun prev() {
-    BookItem(book = Book(
-        id = 1,
-        name = "flows",
-        image = "",
-        about = "dario and diego traveling to japan in this february 2023 :D yeyyy we are gonna do it yeeeeyy",
-        rating = 5.0,
-        month = "february",
-        day = "monday",
-        tags = listOf()
-    ), navHostController = rememberNavController())
+    BookItem(
+        book = Book(
+            id = 1,
+            name = "flows",
+            image = "",
+            about = "dario and diego traveling to japan in this february 2023 :D yeyyy we are gonna do it yeeeeyy",
+            rating = 5.0,
+            month = "february",
+            day = "monday",
+            tags = listOf()
+        ), navHostController = rememberNavController()
+    )
 }
 
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun prev2() {
-    BookItem(book = Book(
-        id = 1,
-        name = "flows",
-        image = "",
-        about = "dario and diego traveling to japan in this february 2023 :D yeyyy we are gonna do it yeeeeyy",
-        rating = 5.0,
-        month = "february",
-        day = "monday",
-        tags = listOf()
-    ), navHostController = rememberNavController())
+    BookItem(
+        book = Book(
+            id = 1,
+            name = "flows",
+            image = "",
+            about = "dario and diego traveling to japan in this february 2023 :D yeyyy we are gonna do it yeeeeyy",
+            rating = 5.0,
+            month = "february",
+            day = "monday",
+            tags = listOf()
+        ), navHostController = rememberNavController()
+    )
 }

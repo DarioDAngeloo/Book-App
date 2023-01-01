@@ -3,6 +3,7 @@ package com.example.bookapp.presentation.components
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -15,7 +16,14 @@ import com.example.bookapp.ui.theme.*
 
 @Composable
 fun ShimmerEffect() {
-
+    LazyColumn(
+        contentPadding = PaddingValues(all = SMALL_PADDING),
+        verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
+    ) {
+        items(count = 2){
+            AnimatedShimmerItem()
+        }
+    }
 }
 
 
@@ -24,10 +32,10 @@ fun AnimatedShimmerItem() {
     val transition = rememberInfiniteTransition()
     val alphaAnim by transition.animateFloat(
         initialValue = 1f,
-        targetValue = 0f,
+        targetValue = 0.5f,
         animationSpec = infiniteRepeatable(
             animation = tween(
-                durationMillis = 250,
+                durationMillis = 400,
                 easing = FastOutLinearInEasing,
 
                 ),
