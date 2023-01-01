@@ -38,6 +38,12 @@ val homeTopBarBGNight = Color(0xFF1D1D27)
 
 val starColor = Color(0xFFF9A826)
 
+//shimmer
+val shimmerLightGray = Color(0xFFEBEBEB)
+val shimmerMediumGray = Color(0xFFD3D3D3)
+val shimmerDarGray = Color(0xFF201F1F)
+val shimmerDarGrayRegular = Color(0xFF3A3939)
+
 
 
 
@@ -68,3 +74,11 @@ val Colors.topBarTxt
 
 val Colors.topBarBg
     get() = if (isLight) homeTopBarBGDay else homeTopBarBGNight
+
+//shimmer
+val Colors.ShimmerItem
+    get() = if (isLight) shimmerLightGray else shimmerDarGray
+
+//shimmer placeholders
+val Colors.ShimmerPlaceholders
+    get() = if (isLight) shimmerMediumGray else shimmerDarGrayRegular
