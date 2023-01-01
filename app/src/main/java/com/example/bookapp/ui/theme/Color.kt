@@ -44,6 +44,10 @@ val shimmerMediumGray = Color(0xFFD3D3D3)
 val shimmerDarGray = Color(0xFF201F1F)
 val shimmerDarGrayRegular = Color(0xFF3A3939)
 
+val errorday = Color(0xFF949494)
+val errornight = Color(0xFFDBDBDB)
+
+
 
 
 
@@ -82,3 +86,7 @@ val Colors.ShimmerItem
 //shimmer placeholders
 val Colors.ShimmerPlaceholders
     get() = if (isLight) shimmerMediumGray else shimmerDarGrayRegular
+
+//error internet and server placeholders
+val Colors.ErrorsPlaceholders
+    get() = if (isLight) errorday else errornight
