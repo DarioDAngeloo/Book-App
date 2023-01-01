@@ -1,8 +1,10 @@
 package com.example.bookapp.presentation.common
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.MaterialTheme
@@ -22,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.bookapp.R
@@ -36,7 +39,22 @@ fun ListContent(
     books: LazyPagingItems<Book>,
     navHostController: NavHostController
 ) {
-
+    Log.d("ListContent", books.loadState.toString())
+    LazyColumn(
+        contentPadding = PaddingValues(all = SMALL_PADDING),
+        verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
+    ){
+        items(
+            items = books,
+            key = { book ->
+                book.id
+            }
+        ) {
+            book -> book?.let {
+                BookItem(book = it, navHostController = navHostController)
+        }
+        }
+    }
 }
 
 @Composable
@@ -51,7 +69,7 @@ fun BookItem(
         },
         contentAlignment = Alignment.BottomStart
     ) {
-        Surface(shape = Shapes.large) {
+        Surface(shape = RoundedCornerShape(size = LARGE_PADDING)) {
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),
                 model = ImageRequest.Builder(LocalContext.current)
