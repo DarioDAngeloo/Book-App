@@ -9,17 +9,20 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.bookapp.R
 import com.example.bookapp.ui.theme.TOP_APP_BAR_HEIGHT
 import com.example.bookapp.ui.theme.topBarBg
 import com.example.bookapp.ui.theme.topBarTxt
-
 @Composable
 fun SearchTopBar(
     text: String,
@@ -42,13 +45,19 @@ fun SearchWidget(
     onSearchClicked: (String) -> Unit,
     onCloseClicked: () -> Unit
 ) {
+
+
+    val focusManager = LocalFocusManager.current
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .height(TOP_APP_BAR_HEIGHT),
-        elevation = AppBarDefaults.TopAppBarElevation,
+        elevation = 5.dp,
         color = MaterialTheme.colors.topBarBg
     ) {
+
+
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = text,
@@ -98,18 +107,19 @@ fun SearchWidget(
             keyboardActions = KeyboardActions(
                 onSearch = {
                     onSearchClicked(text)
+                    focusManager.clearFocus()
                 }
             ),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.Transparent,
                 cursorColor = MaterialTheme.colors.topBarTxt,
-                focusedIndicatorColor = MaterialTheme.colors.topBarTxt.copy(0.6f)
+                focusedIndicatorColor = MaterialTheme.colors.topBarTxt.copy(1f),
+                unfocusedIndicatorColor = MaterialTheme.colors.topBarTxt.copy(0.6f)
             )
 
         )
     }
 }
-
 
 @Preview
 @Composable
