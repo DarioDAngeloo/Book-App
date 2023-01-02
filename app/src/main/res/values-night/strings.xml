@@ -6,5 +6,8 @@
     <string name="star_path">M14,21.288,21.416,26l-1.968-8.88L26,11.145l-8.628-.771L14,2l-3.372,8.375L2,11.145,8.552,17.12,6.584,26Z</string>
     <string name="book_image">book image</string>
     <string name="network_error">network error</string>
+    <string name="search_placeholder">Search for a topic...</string>
+    <string name="search_icon_in_searchscreen">search icon in search screen</string>
+    <string name="close_icon_in_search_screen">Close Icon in search screen</string>
 
 </resources>
