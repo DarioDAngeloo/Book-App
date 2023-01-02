@@ -86,7 +86,11 @@ fun handlePagingResult(
                 false
             }
             error != null -> {
-                EmptyScreen(error = error)
+                EmptyScreen(error = error, books = books)
+                false
+            }
+            books.itemCount < 1 -> {
+                EmptyScreen()
                 false
             }
             else -> true

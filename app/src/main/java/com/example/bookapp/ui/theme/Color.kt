@@ -1,7 +1,6 @@
 package com.example.bookapp.ui.theme
 
 import androidx.compose.material.Colors
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 val Purple200 = Color(0xFFBB86FC)
@@ -30,7 +29,7 @@ val buttonOnBoardingNight = Color(0xFFF9A826)
 val buttonOnBoardingDayText = Color(0xFFFBF9F7)
 val buttonOnBoardingNightText = Color(0xFF1D1D27)
 
-val homeTopBarTxtDay = Color(0xFF6D5B4B)
+val homeTopBarTxtDay = Color(0xFF917A67)
 val homeTopBarTxtNight = Color(0xFF52698B)
 
 val homeTopBarBGDay = Color(0xFFFBF9F7)
@@ -44,8 +43,8 @@ val shimmerMediumGray = Color(0xFFD3D3D3)
 val shimmerDarGray = Color(0xFF201F1F)
 val shimmerDarGrayRegular = Color(0xFF3A3939)
 
-val errorday = Color(0xFF949494)
-val errornight = Color(0xFFDBDBDB)
+val errorDay = Color(0xFF949494)
+val errorNight = Color(0xFFDBDBDB)
 
 
 
@@ -89,4 +88,4 @@ val Colors.ShimmerPlaceholders
 
 //error internet and server placeholders
 val Colors.ErrorsPlaceholders
-    get() = if (isLight) errorday else errornight
+    get() = if (isLight) errorDay else errorNight
