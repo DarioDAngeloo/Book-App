@@ -27,7 +27,12 @@ fun SearchTopBar(
     onSearchClicked: (String) -> Unit,
     onCloseClicked: () -> Unit
 ) {
-
+   SearchWidget(
+       text = text,
+       onTextChange = onTextChange,
+       onSearchClicked = onSearchClicked,
+       onCloseClicked = onCloseClicked
+   )
 }
 
 @Composable
@@ -51,12 +56,12 @@ fun SearchWidget(
             placeholder = {
                 Text(
                     text = stringResource(R.string.search_placeholder),
-                    color = MaterialTheme.colors.topBarTxt.copy(alpha = 0.3f)
+                    color = MaterialTheme.colors.topBarTxt.copy(alpha = 0.5f)
 
                 )
             },
             textStyle = TextStyle(
-                color = MaterialTheme.colors.topBarTxt.copy(alpha = 0.5f)
+                color = MaterialTheme.colors.topBarTxt
             ),
             singleLine = true,
             leadingIcon = {
@@ -66,7 +71,7 @@ fun SearchWidget(
                     Icon(
                         imageVector = Icons.Default.Search,
                         contentDescription = stringResource(R.string.search_icon_in_searchscreen),
-                        tint = MaterialTheme.colors.topBarTxt.copy(alpha = 0.5f)
+                        tint = MaterialTheme.colors.topBarTxt.copy(alpha = 0.4f)
                     )
                 }
             },
@@ -97,7 +102,8 @@ fun SearchWidget(
             ),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.Transparent,
-                cursorColor = MaterialTheme.colors.topBarTxt
+                cursorColor = MaterialTheme.colors.topBarTxt,
+                focusedIndicatorColor = MaterialTheme.colors.topBarTxt.copy(0.6f)
             )
 
         )
