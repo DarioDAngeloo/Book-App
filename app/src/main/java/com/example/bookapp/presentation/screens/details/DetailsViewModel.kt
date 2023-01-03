@@ -12,6 +12,8 @@ import com.example.bookapp.domain.use_cases.UseCases
 import com.example.bookapp.util.Constants.DETAILS_ARGUMENT_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,8 +24,8 @@ class DetailsViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    private val _selectedBook: MutableState<Book?> = mutableStateOf(null)
-    val selectedBook: State<Book?> = _selectedBook
+    private val _selectedBook: MutableStateFlow<Book?> = MutableStateFlow(null)
+    val selectedBook: StateFlow<Book?> = _selectedBook
 
 
     init {

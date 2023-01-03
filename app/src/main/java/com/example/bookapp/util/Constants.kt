@@ -18,6 +18,8 @@ object Constants {
 
     const val ITEMS_PER_PAGE = 3
 
+    const val ABOUT_MAX_LINES_DETAILSCREEN = 7
+
 
 
 }
