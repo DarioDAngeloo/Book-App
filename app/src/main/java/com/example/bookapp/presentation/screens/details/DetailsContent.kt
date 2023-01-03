@@ -1,11 +1,14 @@
 package com.example.bookapp.presentation.screens.details
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -16,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -26,19 +30,31 @@ import com.example.bookapp.presentation.components.InfoBox
 import com.example.bookapp.presentation.components.OrderedList
 import com.example.bookapp.util.Constants.ABOUT_MAX_LINES_DETAILSCREEN
 import com.example.bookapp.util.Constants.BASE_URL
+import com.example.bookapp.util.Constants.MINIMUNM_BACKGROUND_IMAGE_HEIGHT
 
 
 @ExperimentalMaterialApi
 @Composable
 fun DetailsContent(
-    navHostController: NavHostController,
-    selectedBook: Book?
+    navHostController: NavHostController, selectedBook: Book?
 ) {
+
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
     )
 
+
+    val currentSheetFraction = scaffoldState.currentSheetFraction
+
+
+    val radiusAnim by animateDpAsState(
+        targetValue =
+        if (currentSheetFraction == 1f) EXTRA_LARGE_PADDING else 0.dp
+    )
+
+
     BottomSheetScaffold(
+        sheetShape = RoundedCornerShape(topStart = radiusAnim, topEnd = radiusAnim),
         scaffoldState = scaffoldState,
         sheetPeekHeight = MIN_SHEET_HEIGHT,
         sheetContent = {
@@ -46,15 +62,13 @@ fun DetailsContent(
         },
         content = {
             selectedBook?.let { book ->
-                BackgroundContent(
-                    bookImg = book.image,
+                BackgroundContent(bookImg = book.image,
+                    imageFraction = currentSheetFraction,
                     onCloseClicked = {
                         navHostController.popBackStack()
-                    }
-                )
+                    })
             }
-        }
-    )
+        })
 
 
 }
@@ -88,8 +102,7 @@ fun BottomSheetContent(
                 tint = contentColor
             )
             Text(
-                modifier = Modifier
-                    .weight(8f),
+                modifier = Modifier.weight(8f),
                 text = selectedBook.name,
                 color = contentColor,
                 fontSize = MaterialTheme.typography.h4.fontSize,
@@ -119,8 +132,7 @@ fun BottomSheetContent(
         }
 
         Text(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             text = stringResource(R.string.about_detail),
             color = contentColor,
             fontSize = MaterialTheme.typography.subtitle1.fontSize,
@@ -136,8 +148,7 @@ fun BottomSheetContent(
             maxLines = ABOUT_MAX_LINES_DETAILSCREEN
         )
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
         ) {
             OrderedList(
                 title = stringResource(R.string.tags_placeholder_detail),
@@ -169,20 +180,17 @@ fun BackgroundContent(
         AsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(fraction = imageFraction)
+                .fillMaxHeight(fraction = imageFraction + MINIMUNM_BACKGROUND_IMAGE_HEIGHT)
                 .align(Alignment.TopStart),
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(data = imageUrl)
-                .error(drawableResId = R.drawable.placeholder)
-                .build(), contentDescription = stringResource(R.string.book_image),
+            model = ImageRequest.Builder(LocalContext.current).data(data = imageUrl)
+                .error(drawableResId = R.drawable.placeholder).build(),
+            contentDescription = stringResource(R.string.book_image),
             contentScale = ContentScale.Crop
         )
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
+            modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End
         ) {
-            IconButton(
-                modifier = Modifier.padding(all = SMALL_PADDING),
+            IconButton(modifier = Modifier.padding(all = SMALL_PADDING),
                 onClick = { onCloseClicked() }) {
                 Icon(
                     modifier = Modifier.size(ICONS_INFOBOX_SIZE),
@@ -194,6 +202,23 @@ fun BackgroundContent(
         }
     }
 }
+
+
+@ExperimentalMaterialApi
+val BottomSheetScaffoldState.currentSheetFraction: Float
+    get() {
+        val fraction = bottomSheetState.progress.fraction
+        val targetValue = bottomSheetState.targetValue
+        val currentValue = bottomSheetState.currentValue
+
+        return when {
+            currentValue == BottomSheetValue.Collapsed && targetValue == BottomSheetValue.Collapsed -> 1f
+            currentValue == BottomSheetValue.Expanded && targetValue == BottomSheetValue.Expanded -> 0f
+            currentValue == BottomSheetValue.Collapsed && targetValue == BottomSheetValue.Expanded -> 1f - fraction
+            currentValue == BottomSheetValue.Expanded && targetValue == BottomSheetValue.Collapsed -> 0f + fraction
+            else -> fraction
+        }
+    }
 
 
 @Preview
