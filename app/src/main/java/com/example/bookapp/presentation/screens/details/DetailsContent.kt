@@ -1,5 +1,6 @@
 package com.example.bookapp.presentation.screens.details
 
+import android.graphics.Color.parseColor
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -7,8 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -18,7 +18,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
@@ -31,13 +30,30 @@ import com.example.bookapp.presentation.components.OrderedList
 import com.example.bookapp.util.Constants.ABOUT_MAX_LINES_DETAILSCREEN
 import com.example.bookapp.util.Constants.BASE_URL
 import com.example.bookapp.util.Constants.MINIMUNM_BACKGROUND_IMAGE_HEIGHT
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
 @ExperimentalMaterialApi
 @Composable
 fun DetailsContent(
-    navHostController: NavHostController, selectedBook: Book?
+    navHostController: NavHostController, selectedBook: Book?, colors: Map<String, String>
 ) {
+    var vibrant by remember { mutableStateOf("#000000") }
+    var darkVibrant by remember { mutableStateOf("#000000") }
+    var onDarkVibrant by remember { mutableStateOf("#ffffff") }
+
+    LaunchedEffect(key1 = selectedBook) {
+        vibrant = colors["vibrant"]!!
+        darkVibrant = colors["darkVibrant"]!!
+        onDarkVibrant = colors["onDarkVibrant"]!!
+
+    }
+    val systemUiController = rememberSystemUiController()
+
+    SideEffect {
+        systemUiController.setStatusBarColor(color = Color(parseColor(darkVibrant)))
+    }
+
 
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
@@ -58,12 +74,20 @@ fun DetailsContent(
         scaffoldState = scaffoldState,
         sheetPeekHeight = MIN_SHEET_HEIGHT,
         sheetContent = {
-            selectedBook?.let { BottomSheetContent(selectedBook = it) }
+            selectedBook?.let {
+                BottomSheetContent(
+                    selectedBook = it,
+                    infoBoxIconColor = Color(parseColor(vibrant)),
+                    sheetBackgroundColor = Color(parseColor(darkVibrant)),
+                    contentColor = Color(parseColor(onDarkVibrant))
+                )
+            }
         },
         content = {
             selectedBook?.let { book ->
                 BackgroundContent(bookImg = book.image,
                     imageFraction = currentSheetFraction,
+                    backgroundColor = Color(parseColor(darkVibrant)),
                     onCloseClicked = {
                         navHostController.popBackStack()
                     })
@@ -221,19 +245,3 @@ val BottomSheetScaffoldState.currentSheetFraction: Float
     }
 
 
-@Preview
-@Composable
-fun Bottom() {
-    BottomSheetContent(
-        selectedBook = Book(
-            id = 1,
-            name = "flow",
-            image = "",
-            about = "nihon 2023",
-            rating = 2.0,
-            month = "july",
-            day = "23",
-            tags = listOf("osaaka", "kyoto", "oamori")
-        )
-    )
-}

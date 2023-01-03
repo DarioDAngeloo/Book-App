@@ -1,16 +1,16 @@
 package com.example.bookapp.presentation.screens.home
 
-import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.SideEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.bookapp.navigation.Screen
 import com.example.bookapp.presentation.common.ListContent
-import com.example.bookapp.presentation.components.RatingWidget
-import com.example.bookapp.ui.theme.LARGE_PADDING
+import com.example.bookapp.ui.theme.topBarBg
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun HomeScreen(
@@ -19,6 +19,14 @@ fun HomeScreen(
 ) {
 
     val allBooks = homeViewModel.getAllBooks.collectAsLazyPagingItems()
+
+    val systemUiController = rememberSystemUiController()
+    val sys = MaterialTheme.colors.topBarBg
+
+    SideEffect {
+        systemUiController.setStatusBarColor(color = sys)
+    }
+
 
     Scaffold(
         topBar = {

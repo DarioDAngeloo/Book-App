@@ -13,7 +13,7 @@ import javax.inject.Inject
 import java.lang.Exception
 
 @ExperimentalPagingApi
-class BookRemoteMediator @Inject constructor(
+class BookRemoteMediator (
     private val bookApi: BookApi,
     private val bookDatabase: BookDatabase
 ) : RemoteMediator<Int, Book>() {
