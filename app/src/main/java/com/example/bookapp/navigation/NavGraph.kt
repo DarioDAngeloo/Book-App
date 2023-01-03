@@ -7,7 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.bookapp.presentation.details.DetailsScreen
+import com.example.bookapp.presentation.screens.details.DetailsScreen
 import com.example.bookapp.presentation.screens.home.HomeScreen
 import com.example.bookapp.presentation.screens.search.SearchScreen
 import com.example.bookapp.presentation.screens.splash.SplashScreen
