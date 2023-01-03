@@ -9,4 +9,5 @@
     <string name="search_placeholder">Search for a topic...</string>
     <string name="search_icon_in_searchscreen">search icon in search screen</string>
     <string name="close_icon_in_search_screen">Close Icon in search screen</string>
+    <string name="info_icon_details">info icon</string>
 </resources>
