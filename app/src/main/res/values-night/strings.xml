@@ -9,5 +9,12 @@
     <string name="search_placeholder">Search for a topic...</string>
     <string name="search_icon_in_searchscreen">search icon in search screen</string>
     <string name="close_icon_in_search_screen">Close Icon in search screen</string>
+    <string name="info_icon_details">info icon</string>
+    <string name="logo_icon_detailss">logo</string>
+    <string name="month_details_placeholder">Month</string>
+    <string name="day_placeholder_details">Day</string>
+    <string name="about_detail">About</string>
+    <string name="tags_placeholder_detail">Tags</string>
+    <string name="close_icon">close icon</string>
 
 </resources>

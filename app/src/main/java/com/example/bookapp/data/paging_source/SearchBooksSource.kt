@@ -7,7 +7,7 @@ import com.example.bookapp.data.remote.BookApi
 import com.example.bookapp.domain.model.Book
 import javax.inject.Inject
 
-class SearchBooksSource @Inject constructor(
+class SearchBooksSource(
     private val bookApi: BookApi,
     private val query: String
 ) : PagingSource<Int, Book>() {
