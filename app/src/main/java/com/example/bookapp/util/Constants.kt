@@ -2,7 +2,7 @@ package com.example.bookapp.util
 
 object Constants {
 
-    const val BASE_URL = "https://fine-o4pw.onrender.com/"
+    const val BASE_URL = "https://fine-o4pw.onrender.com"
 
     const val DETAILS_ARGUMENT_KEY = "bookId"
 
